@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 // date_default_timezone_set('Asia/Jakarta');
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return "Welcome to sanclass services ! This is instance number !";
 });
 
 $router->post('check-username',     'AuthController@username');
@@ -24,6 +24,7 @@ $router->post('forgot-password',    'AuthController@forgotPassword');
 $router->post('login',              'AuthController@login');
 
 $router->get('general/version',     'GeneralController@version');
+$router->get('general/time',        'GeneralController@time');
 
 $router->group(['middleware' => 'auth'], function ($router) {
     $router->post('logout',             'AuthController@logout');
@@ -65,7 +66,17 @@ $router->group(['middleware' => 'auth'], function ($router) {
             $router->post('/edit/{lessonId}',    ['uses' => 'Teacher\ClassController@editLesson', 'middleware' => 'auth']);
         });
 
-
+        // $router->group(['prefix' => 'quiz'], function ($router) {
+        //     $router->post('/create',                ['uses' => 'Teacher\QuizController@createQuiz', 'middleware' => 'auth']);
+        //     $router->get('/delete/{id}',            ['uses' => 'Teacher\QuizController@deleteQuiz', 'middleware' => 'auth']);
+        //     $router->get('/{id}',                   ['uses' => 'Teacher\QuizController@detailQuiz', 'middleware' => 'auth']);
+        //     $router->post('/{id}/create-question',  ['uses' => 'Teacher\QuizController@createQuestion', 'middleware' => 'auth']);
+        //     $router->get('/{id}/delete-question/{questionId}',      ['uses' => 'Teacher\QuizController@deleteQuestion', 'middleware' => 'auth']);
+        //     $router->post('/{id}/edit-question/{questionId}',       ['uses' => 'Teacher\QuizController@createQuestion', 'middleware' => 'auth']);
+        //     $router->get('/{id}/get-essay-answer/{questionId}',     ['uses' => 'Teacher\QuizController@getEssayAnswer', 'middleware' => 'auth']);
+        //     $router->post('/{id}/correct-essay-answer/{questionId}',['uses' => 'Teacher\QuizController@correctEssayAnswer', 'middleware' => 'auth']);
+        //     $router->get('/{id}/attempt/{attemptId}',               ['uses' => 'Teacher\QuizController@attemptDetail', 'middleware' => 'auth']);
+        // });
     });
     
     // ------------------------------------------------------------------
@@ -81,5 +92,12 @@ $router->group(['middleware' => 'auth'], function ($router) {
         $router->get('/class/{id}/meetings',                            ['uses' => 'Student\ClassController@listMeeting', 'middleware' => 'auth']);
         $router->get('/class/{id}/meeting/{meetId}/lesson/{lessonId}',  ['uses' => 'Student\ClassController@detailLesson', 'middleware' => 'auth']);
         $router->post('/class/attendlesson/{lessonId}',                 ['uses' => 'Student\ClassController@attendees', 'middleware' => 'auth']);
+        // $router->get('/quiz/{id}',                                      ['uses' => 'Student\QuizController@getQuizDetail', 'middleware' => 'auth']);
+        // $router->post('/quiz/{id}/start',                               ['uses' => 'Student\QuizController@startQuiz', 'middleware' => 'auth']);
+        // $router->post('/quiz/{id}/finish',                              ['uses' => 'Student\QuizController@finishQuiz', 'middleware' => 'auth']);
+        // $router->post('/quiz/{id}/answer/insert',                       ['uses' => 'Student\QuizController@answerQuestion', 'middleware' => 'auth']);
+        // $router->post('/quiz/{id}/answer/update',                       ['uses' => 'Student\QuizController@updateQuestion', 'middleware' => 'auth']);
+        // $router->post('/quiz/{id}/answer/delete',                       ['uses' => 'Student\QuizController@deleteQuestion', 'middleware' => 'auth']);
+        $router->get('/attempts/{id}',                                  ['uses' => 'Student\QuizController@attemptDetail', 'middleware' => 'auth']);
     });
 });
